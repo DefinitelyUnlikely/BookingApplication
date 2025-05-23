@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using BookingApplication.Exceptions;
 using BookingApplication.Interfaces;
 using BookingApplication.Models;
 using BookingApplication.Models.Dtos;
@@ -19,13 +20,17 @@ public class BookingController(IService<Booking, CreateBookingRequest, EditBooki
     {
         try
         {
-            if (request.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) || !User.IsInRole("Admin"))
+            if (request.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) && !User.IsInRole("Admin"))
             {
                 return Forbid("User id does not match logged in user. To book for someone else, please login as an admin");
             }
 
             var booking = await bookingService.CreateFromRequestAsync(request);
             return Created(nameof(Book), new { Message = $"Created booking with Id {booking.Id}" });
+        }
+        catch (DateErrorException e)
+        {
+            return BadRequest($"An error with request dates have occured: {e.Message}");
         }
         catch (ArgumentException e)
         {
@@ -43,7 +48,7 @@ public class BookingController(IService<Booking, CreateBookingRequest, EditBooki
     {
         try
         {
-            if (request.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) || !User.IsInRole("Admin"))
+            if (request.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) && !User.IsInRole("Admin"))
             {
                 return Unauthorized("User id does not match logged in user. To edit a booking for someone else or transfer a booking to someone else, please login as an admin");
             }
@@ -68,17 +73,11 @@ public class BookingController(IService<Booking, CreateBookingRequest, EditBooki
         try
         {
             var booking = await bookingService.GetByIdAsync(bookingId);
-            if (booking?.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) || !User.IsInRole("Admin"))
+            if (booking?.UserId.ToString() != User.FindFirstValue(ClaimTypes.NameIdentifier) && !User.IsInRole("Admin"))
             {
                 return Forbid("To cancel someone else's booking, please log in as an admin.");
             }
-            // We imagine a method named something like this exists and we'll change it when 
-            // the actual method does exist.
-            // await bookingService.CancelById(bookingId);
-
-            // Can we not use delete?
             await bookingService.DeleteAsync(bookingId);
-
             return Ok();
         }
         catch (Exception)
@@ -88,22 +87,4 @@ public class BookingController(IService<Booking, CreateBookingRequest, EditBooki
     }
 }
 
-// public class CreateBookingRequest : IRequest
-// {
-//     public required DateTime StartDate { get; set; }
-//     public required DateTime EndDate { get; set; }
-//     public required Guid RoomId { get; set; }
-//     public required string UserId { get; set; }
-//     public Guid? ActivityId { get; set; }
-// }
-
-// public class EditBookingRequest : IRequest
-// {
-//     public required Guid Id { get; set; }
-//     public required DateTime StartDate { get; set; }
-//     public required DateTime EndDate { get; set; }
-//     public required Guid RoomId { get; set; }
-//     public required string UserId { get; set; }
-//     public Guid? ActivityId { get; set; }
-// }
 

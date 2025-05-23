@@ -8,6 +8,7 @@ public class Booking
     public required Guid Id { get; set; }
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
+    public float Price { get; set; }
 
     public required Guid RoomId { get; set; }
 

@@ -46,12 +46,13 @@ public abstract class EfService<T, TAddRequest, TEditRequest>
         }
 
         // await repository.DeleteAsync(entity);
-        await repository.DeleteAsync(entityId.ToString());
+        await repository.DeleteAsync(entity);
     }
 
     public async Task DeleteAsync(T entityToRemove)
     {
         await repository.DeleteAsync(entityToRemove);
+        //await repository.DeleteAsync(entityToRemove);
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()

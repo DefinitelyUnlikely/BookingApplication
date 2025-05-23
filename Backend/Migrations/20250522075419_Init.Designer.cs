@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingApplication.Migrations
 {
     [DbContext(typeof(BookingAppContext))]
-    [Migration("20250518210511_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250522075419_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace BookingApplication.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
 
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uuid");

@@ -1,0 +1,139 @@
+body {
+    margin: 0;
+    background-color: #bcc4dbff;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    font-family: "JetBrains Mono";
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex: 1;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Bold-Italic.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Bold-Italic.woff') format('woff');
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Bold.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-ExtraBold-Italic.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-ExtraBold-Italic.woff') format('woff');
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-ExtraBold.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-ExtraBold.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Italic.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Italic.woff') format('woff');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Medium-Italic.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Medium-Italic.woff') format('woff');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Medium.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Medium.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+        url('https://cdn.jsdelivr.net/gh/JetBrains/JetBrainsMono/web/woff/JetBrainsMono-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* A Propsed color scheme by a color picker website, that I felt matched the feel of a 
+website where one books stuff  */
+/**
+
+--french-gray: #bcc4dbff;
+--rose-quartz: #c0a9b0ff;
+--glaucous: #7880b5ff;
+--glaucous-2: #6987c9ff;
+--maya-blue: #6bbaecff;
+
+
+--french-gray: hsla(225, 30%, 80%, 1);
+--rose-quartz: hsla(342, 15%, 71%, 1);
+--glaucous: hsla(232, 29%, 59%, 1);
+--glaucous-2: hsla(221, 47%, 60%, 1);
+--maya-blue: hsla(203, 77%, 67%, 1);
+
+
+$french-gray: #bcc4dbff;
+$rose-quartz: #c0a9b0ff;
+$glaucous: #7880b5ff;
+$glaucous-2: #6987c9ff;
+$maya-blue: #6bbaecff;
+
+
+$french-gray: hsla(225, 30%, 80%, 1);
+$rose-quartz: hsla(342, 15%, 71%, 1);
+$glaucous: hsla(232, 29%, 59%, 1);
+$glaucous-2: hsla(221, 47%, 60%, 1);
+$maya-blue: hsla(203, 77%, 67%, 1);
+
+
+$french-gray: rgba(188, 196, 219, 1);
+$rose-quartz: rgba(192, 169, 176, 1);
+$glaucous: rgba(120, 128, 181, 1);
+$glaucous-2: rgba(105, 135, 201, 1);
+$maya-blue: rgba(107, 186, 236, 1);
+
+$gradient-top: linear-gradient(0deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-right: linear-gradient(90deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-bottom: linear-gradient(180deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-left: linear-gradient(270deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-top-right: linear-gradient(45deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-bottom-right: linear-gradient(135deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-top-left: linear-gradient(225deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-bottom-left: linear-gradient(315deg, #bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+$gradient-radial: radial-gradient(#bcc4dbff, #c0a9b0ff, #7880b5ff, #6987c9ff, #6bbaecff);
+
+*/

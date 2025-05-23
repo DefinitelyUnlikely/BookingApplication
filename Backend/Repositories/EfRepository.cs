@@ -1,4 +1,3 @@
-
 using BookingApplication.Data;
 using BookingApplication.Interfaces;
 using Microsoft.EntityFrameworkCore;

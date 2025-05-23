@@ -4,27 +4,25 @@ using BookingApplication.Interfaces;
 using BookingApplication.Models;
 using BookingApplication.Models.Dtos;
 using BookingApplication.Repositories;
+using BookingApplication.Exceptions;
 
 namespace BookingApplication.Services;
 
-public class BookingService : EfService<Booking, CreateBookingRequest, EditBookingRequest>
+public class BookingService(IRepository<Booking> repository) : EfService<Booking, CreateBookingRequest, EditBookingRequest>(repository)
 {
-    public BookingService(BookingRepository repository)
-        : base(repository) { }
-
     public override async Task<Booking> CreateFromRequestAsync(CreateBookingRequest request)
     {
         if (request.StartDate < DateTime.Now || request.EndDate < DateTime.Now)
         {
-            throw new Exception("Booking dates can't be in the past");
+            throw new DateErrorException("Booking dates can't be in the past");
         }
         if (request.RoomId == Guid.Empty)
         {
-            throw new Exception("A room must be linked to the booking");
+            throw new ArgumentException("A room must be linked to the booking");
         }
         if (request.UserId == Guid.Empty)
         {
-            throw new Exception("A user must be linked to the booking");
+            throw new ArgumentException("A user must be linked to the booking");
         }
 
         var booking = new Booking
@@ -45,7 +43,7 @@ public class BookingService : EfService<Booking, CreateBookingRequest, EditBooki
     {
         if (request.StartDate < DateTime.Now || request.EndDate < DateTime.Now)
         {
-            throw new Exception("Booking dates can't be in the past");
+            throw new DateErrorException("Booking dates can't be in the past");
         }
 
         var booking = new Booking
@@ -55,7 +53,7 @@ public class BookingService : EfService<Booking, CreateBookingRequest, EditBooki
             UserId = request.UserId,
             StartDate = request.StartDate,
             EndDate = request.EndDate,
-            ActivityId = request.ActivityId,
+            ActivityId = request.ActivityId
         };
 
         await repository.EditAsync(booking);

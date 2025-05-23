@@ -6,14 +6,14 @@
 
 <Navbar />
 
-{@render children()}
+<main>{@render children()}</main>
 
 <style>
-	:global(body) {
-		margin: 0;
+	main {
 		display: flex;
 		flex-direction: column;
 		justify-content: flex-start;
 		align-items: center;
+		margin: 1rem;
 	}
 </style>

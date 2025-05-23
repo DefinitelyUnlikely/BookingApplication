@@ -28,17 +28,5 @@ namespace BookingApplication.Repositories
         }
     }
 
-    // public async Task<IEnumerable<Activity>> GetActivitiesByUserIdAsync(Guid userId)
-    // {
-    //     return await _context.Activities
-    //         .Where(a => a.UserId == userId)
-    //         .ToListAsync();
-    // }
-    // public async Task<IEnumerable<Activity>> GetActivitiesByBookingIdAsync(Guid bookingId)
-    // {
-    //     return await _context.Activities
-    //         .Where(a => a.BookingId == bookingId)
-    //         .ToListAsync();
-    // }
 
 }

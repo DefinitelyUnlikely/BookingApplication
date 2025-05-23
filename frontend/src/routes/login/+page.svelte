@@ -10,7 +10,7 @@
     let password = '';
     let errorMessage = '';
 
-    // login(username, password);
+    login(username, password);
 
     async function handleLogin() {
         errorMessage = '';

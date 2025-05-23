@@ -53,6 +53,9 @@ namespace BookingApplication.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<float>("Price")
+                        .HasColumnType("real");
+
                     b.Property<Guid>("RoomId")
                         .HasColumnType("uuid");
 

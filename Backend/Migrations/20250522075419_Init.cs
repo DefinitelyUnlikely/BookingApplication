@@ -7,11 +7,14 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BookingApplication.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            // Ensure btree_gist is available
+            migrationBuilder.Sql("CREATE EXTENSION IF NOT EXISTS btree_gist;");
+
             migrationBuilder.AlterDatabase()
                 .Annotation("Npgsql:PostgresExtension:btree_gist", ",,");
 
@@ -197,6 +200,7 @@ namespace BookingApplication.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Price = table.Column<float>(type: "real", nullable: false),
                     RoomId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     ActivityId = table.Column<Guid>(type: "uuid", nullable: true)
@@ -280,6 +284,20 @@ namespace BookingApplication.Migrations
                 table: "Rooms",
                 column: "RoomNumber",
                 unique: true);
+
+            // Add generated column for date range
+            migrationBuilder.Sql(@"
+                    ALTER TABLE ""Bookings""
+                    ADD COLUMN ""BookingPeriod"" tstzrange
+                    GENERATED ALWAYS AS (tstzrange(""StartDate"", ""EndDate"")) STORED;
+                ");
+
+            // Add EXCLUDE constraint to prevent overlapping bookings per Room
+            migrationBuilder.Sql(@"
+                    ALTER TABLE ""Bookings""
+                    ADD CONSTRAINT booking_no_overlap
+                    EXCLUDE USING gist (""RoomId"" WITH =, ""BookingPeriod"" WITH &&);
+                ");
         }
 
         /// <inheritdoc />
@@ -314,6 +332,16 @@ namespace BookingApplication.Migrations
 
             migrationBuilder.DropTable(
                 name: "Rooms");
+
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""Bookings""
+                DROP CONSTRAINT IF EXISTS booking_no_overlap;
+            ");
+
+            migrationBuilder.Sql(@"
+                ALTER TABLE ""Bookings""
+                DROP COLUMN IF EXISTS ""BookingPeriod"";
+            ");
         }
     }
 }

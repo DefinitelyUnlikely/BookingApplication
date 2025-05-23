@@ -12,23 +12,23 @@ public class RoomService : EfService<Room, CreateRoomRequest, EditRoomRequest>
     {
         if(string.IsNullOrWhiteSpace(request.Name))
         {
-            throw new Exception("Room must have a name");
+            throw new ArgumentException("Room must have a name");
         }
         if(request.RoomNumber <= 0)
         {
-            throw new Exception("Room number can't be 0 or negative");
+            throw new ArgumentOutOfRangeException("Room number can't be 0 or negative");
         }
         if(request.Limit <= 0)
         {
-            throw new Exception("Limit can't be less than 1");
+            throw new ArgumentOutOfRangeException("Limit can't be less than 1");
         }
         if(request.Area <= 0)
         {
-            throw new Exception("Area can't be less than 1");
+            throw new ArgumentOutOfRangeException("Area can't be less than 1");
         }
         if(request.Price < 0)
         {
-            throw new Exception("Price can't be negative");
+            throw new ArgumentOutOfRangeException("Price can't be negative");
         }
 
         var room = new Room
@@ -49,31 +49,31 @@ public class RoomService : EfService<Room, CreateRoomRequest, EditRoomRequest>
     {
         if(request.Id == Guid.Empty)
         {
-            throw new Exception("The activity ID can't be empty");
+            throw new ArgumentException("The activity ID can't be empty");
         }
         if(string.IsNullOrWhiteSpace(request.Name))
         {
-            throw new Exception("Room must have a name");
+            throw new ArgumentException("Room must have a name");
         }
         if(request.RoomNumber <= 0)
         {
-            throw new Exception("Room number can't be 0 or negative");
+            throw new ArgumentOutOfRangeException("Room number can't be 0 or negative");
         }
         if(request.Limit <= 0)
         {
-            throw new Exception("Limit can't be less than 1");
+            throw new ArgumentOutOfRangeException("Limit can't be less than 1");
         }
         if(request.Area <= 0)
         {
-            throw new Exception("Area can't be less than 1");
+            throw new ArgumentOutOfRangeException("Area can't be less than 1");
         }
         if(request.Price < 0)
         {
-            throw new Exception("Price can't be negative");
+            throw new ArgumentOutOfRangeException("Price can't be negative");
         }
         if(request.Bookings == null)
         {
-            throw new Exception("The collection of bookings can't be null");
+            throw new ArgumentNullException("The collection of bookings can't be null");
         }
 
         var room = new Room 

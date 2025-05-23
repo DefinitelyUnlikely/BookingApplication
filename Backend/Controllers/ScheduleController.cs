@@ -1,3 +1,4 @@
+using BookingApplication.Exceptions;
 using BookingApplication.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -6,27 +7,37 @@ using Microsoft.AspNetCore.Mvc;
 [Route("schedule")]
 public class ScheduleController : ControllerBase
 {
-    private readonly RoomService roomService;
+    private readonly ScheduleService scheduleService;
 
-    public ScheduleController(RoomService roomService)
+    public ScheduleController(ScheduleService scheduleService)
     {
-        this.roomService = roomService;
+        this.scheduleService = scheduleService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetRooms(
-        [FromQuery] DateTime startDate,
-        [FromQuery] DateTime endDate
+    public async Task<IActionResult> GetSchedule(
+        [FromQuery] DateTime? startDate,
+        [FromQuery] DateTime? endDate
     )
     {
         try
         {
-            // var rooms = roomService.GetRoomsFromSpan();
-            // return Ok(rooms);
+            if (startDate == null || endDate == null)
+            {
+                (startDate, endDate) = DateTime.Today.GetCurrentWeek();
+            }
 
-            return Ok();
+            var bookings = await scheduleService.GetScheduleAsync(startDate ?? throw new DateErrorException("Error while converting a nullable DateTime startDate to non nullable"),
+            endDate ?? throw new DateErrorException("Error while converting a nullable DateTime endDate to non nullable"));
+            return Ok(bookings);
         }
-        catch (System.Exception)
+        catch (DateErrorException ex)
+        {
+            // Logger not implemented
+            Console.WriteLine(ex.Message);
+            return StatusCode(500, "Unable to get bookings");
+        }
+        catch
         {
             return BadRequest("");
         }

@@ -15,7 +15,7 @@ namespace BookingApplication.Repositories
         {
         }
 
-        public override async Task<Booking> GetByIdAsync(Guid id)
+        public override async Task<Booking?> GetByIdAsync(Guid id)
         {
             return await _context.Bookings
                 .Include(b => b.User)
@@ -44,4 +44,3 @@ namespace BookingApplication.Repositories
         }
     }
 }
-

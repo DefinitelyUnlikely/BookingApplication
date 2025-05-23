@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace BookingApplication.Controllers;
 
 [ApiController]
-[Route("")]
-public class RoomController : ControllerBase 
+[Route("room")]
+public class RoomController : ControllerBase
 {
     private readonly RoomService roomService;
 
@@ -16,8 +16,8 @@ public class RoomController : ControllerBase
         this.roomService = roomService;
     }
 
-    [Authorize(Roles ="Admin")]
-    [HttpPost("")]
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateRoomRequest request)
     {
         try
@@ -26,8 +26,12 @@ public class RoomController : ControllerBase
 
             if (room == null)
                 return BadRequest("Invalid request");
-                
+
             return Ok(room);
+        }
+        catch (ArgumentException e)
+        {
+            return BadRequest($"The request could not be processed: {e.Message}");
         }
         catch
         {
@@ -49,13 +53,17 @@ public class RoomController : ControllerBase
             room = await roomService.EditFromRequestAsync(request);
             return Ok(room);
         }
+        catch (ArgumentException e)
+        {
+            return BadRequest($"The request could not be processed: {e.Message}");
+        }
         catch
         {
             return StatusCode(500, new { errors = "An unexpected error occured." });
         }
     }
 
-    [Authorize(Roles ="Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{roomId}")]
     public async Task<IActionResult> Delete(Guid roomId)
     {
@@ -75,7 +83,6 @@ public class RoomController : ControllerBase
         }
     }
 
-    [Authorize(Roles ="Admin")]
     [HttpGet("{roomId}")] // 
     public async Task<IActionResult> Get(Guid roomId)
     {

@@ -10,10 +10,10 @@ protected override void Up(MigrationBuilder migrationBuilder)
 
     // Add generated column for date range
     migrationBuilder.Sql(@"
-        ALTER TABLE ""Bookings""
-        ADD COLUMN ""BookingPeriod"" tsrange
-        GENERATED ALWAYS AS (tsrange(""StartDate"", ""EndDate"")) STORED;
-    ");
+            ALTER TABLE ""Bookings""
+            ADD COLUMN ""BookingPeriod"" tstzrange
+            GENERATED ALWAYS AS (tstzrange(""StartDate"", ""EndDate"")) STORED;
+        ");
 
     // Add EXCLUDE constraint to prevent overlapping bookings per Room
     migrationBuilder.Sql(@"

@@ -8,25 +8,20 @@ namespace BookingApplication.Services;
 
 public class ScheduleService
 {
-    private readonly BookingRepository bookingRepository;
+    private readonly IRepository<Booking> bookingRepository;
 
-    public ScheduleService(BookingRepository bookingRepository)
+    public ScheduleService(IRepository<Booking> bookingRepository)
     {
         this.bookingRepository = bookingRepository;
     }
 
-    public async Task<ScheduleResponse> GetScheduleAsync(DateTime start, DateTime end)
+    public async Task<List<Booking>> GetScheduleAsync(DateTime start, DateTime end)
     {
         var bookings = await bookingRepository.GetAllAsync();
-        var filteredBookings = bookings.Where(b => b.StartDate >= start && b.EndDate <= end);
-        foreach (var booking in filteredBookings)
-        {
-
-        }
-
-        return new ScheduleResponse();
+        return bookings.Where(b => b.StartDate >= start && b.EndDate <= end).OrderBy(b => b.StartDate).ToList();
     }
 }
+
 
 public class ScheduleResponse
 {

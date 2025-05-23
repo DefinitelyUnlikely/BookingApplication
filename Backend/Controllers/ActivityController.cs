@@ -1,3 +1,4 @@
+using BookingApplication.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -5,31 +6,78 @@ using Microsoft.AspNetCore.Mvc;
 [Route("activity")]
 public class ActivityController : ControllerBase
 {
+    private readonly ActivityService _activityService;
+
+    public ActivityController(ActivityService activityService)
+    {
+        _activityService = activityService;
+    }
     [Authorize(Roles = "Admin")]
     [HttpPost("")]
     public async Task<IActionResult> Create([FromBody] CreateActivityRequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var activity = await _activityService.CreateFromRequestAsync(request);
+            return CreatedAtAction(nameof(Get), new { activityId = activity.Id} , activity );
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message});
+        }
     }
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{activityId}")]
     public async Task<IActionResult> Update(Guid activityId, [FromBody] EditActivityRequest request)
     {
-        throw new NotImplementedException();
+       try
+       {
+        if (activityId != request.Id)
+        {
+            return BadRequest(new { error = "Activity Id in URL must match the Id in the request body!"});
+        }
+        var activity = await _activityService.EditFromRequestAsync(request);
+        return Ok(activity);
+       }
+       catch (Exception ex)
+       {
+        return BadRequest(new { error = ex.Message});
+       }
     }
 
     [Authorize(Roles = "Admin")]
     [HttpDelete("{activityId}")]
     public async Task<IActionResult> Delete(Guid activityId)
     {
-        throw new NotImplementedException();
+        try
+            {
+                await _activityService.DeleteAsync(activityId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { error = ex.Message });
+            }
     }
 
     [HttpGet("{activityId}")] //
     public async Task<IActionResult> Get(Guid activityId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var activity = await _activityService.GetByIdAsync(activityId);
+            
+            if (activity == null)
+            {
+                return NotFound(new { error = $"Activity with ID {activityId} not found"});
+            }
+            return Ok(activity);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { error = ex.Message});
+        }
     }
 }
 
